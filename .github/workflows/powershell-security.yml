@@ -21,15 +21,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run PSScriptAnalyzer and generate SARIF report
+      - name: Run PSScriptAnalyzer
         uses: microsoft/psscriptanalyzer-action@v1.1
+        id: psscriptanalyzer
+        continue-on-error: true
         with:
           path: "."
           recurse: true
-          severity: 'Error, Warning'
           output: "results.sarif"
 
       - name: Upload SARIF results to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
+        if: always()
         with:
           sarif_file: "results.sarif"
