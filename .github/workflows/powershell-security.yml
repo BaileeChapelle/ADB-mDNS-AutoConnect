@@ -23,7 +23,6 @@ jobs:
 
       - name: Run PSScriptAnalyzer
         uses: microsoft/psscriptanalyzer-action@v1.1
-        id: psscriptanalyzer
         continue-on-error: true
         with:
           path: "."
