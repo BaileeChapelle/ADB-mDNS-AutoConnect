@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main" ]
   schedule:
-    - cron: '30 2 * * 1' # 每周一定时扫一次
+    - cron: '30 2 * * 1'
 
 jobs:
   analyze:
@@ -15,7 +15,7 @@ jobs:
     permissions:
       actions: read
       contents: read
-      security-events: write # 关键：让扫描结果可以写入仓库的 Security 面板
+      security-events: write
 
     steps:
       - name: Checkout code
@@ -24,11 +24,9 @@ jobs:
       - name: Run PSScriptAnalyzer and generate SARIF report
         uses: microsoft/psscriptanalyzer-action@v1.1
         with:
-          path: ".\/"
+          path: "."
           recurse: true
-          # 包含所有严重级别的警告与安全问题
-          severity: '"Error", "Warning"'
-          # 导出为 SARIF 格式，供 GitHub Security 面板读取
+          severity: 'Error, Warning'
           output: "results.sarif"
 
       - name: Upload SARIF results to GitHub Security
